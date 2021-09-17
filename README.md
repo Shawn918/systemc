@@ -2,8 +2,11 @@ This project is a tutorial project for systemc Learning forked from NMadvres/sys
 Its a demo packet switch with demo testbench as below:
 
 [pktgen]-->|----------|  |----------|-->[stat]
+
 [pktgen]-->|INGRESS   |--|PktEditor |-->[stat]
+
 [pktgen]-->|&Schedule |  |& Egress  |-->[stat]
+
 [pktgen]-->|__________|  |__________|-->[stat]
 
 [Sys Assumption]:
@@ -35,6 +38,7 @@ Output Port Num: 4
 [Logs/Stat]
    Loging：
        [@G_Cycle_Cnt] rcv from Port x [s:2,d:1,i:132,l:256,p:1]
+
        [@G_Cycle_Cnt] send to Port x [s:2,d:1,i:132,l:256,p:1]
    statistic:
        <<<TOP>>>
