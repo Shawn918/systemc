@@ -19,23 +19,22 @@ Output Port Num: 4
    To Ports: 1
    Sending Speed: 1Gbps each
    Pri:  50% pri1, 50% pri2
->>>Set1
+>>>Set2
    Pktlen: Fix 256
    Sending Ports: 1 to 4
-   To Ports: 1
+   To Ports: 1,2 random
    Sending Speed: 1Gbps each
    Pri:  50% pri1, 50% pri2
->>>Set1
+>>>Set3
    Pktlen: Fix 256
    Sending Ports: 1 to 4
-   To Ports: 1
+   To Ports: 1,2,3,4 random
    Sending Speed: 1Gbps each
    Pri:  50% pri1, 50% pri2
 
 [Logs/Stat]
    Loging：
        [@G_Cycle_Cnt] rcv from Port x [s:2,d:1,i:132,l:256,p:1]
-
        [@G_Cycle_Cnt] send to Port x [s:2,d:1,i:132,l:256,p:1]
    statistic:
        <<<TOP>>>

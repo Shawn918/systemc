@@ -6,9 +6,9 @@
 #include "systemc.h"
 #include "tlm"
 #include "tlm_utils/multi_passthrough_initiator_socket.h"
-#include  "tlm_utils/multi_passthrough_target_socket.h"
+#include "tlm_utils/multi_passthrough_target_socket.h"
 #include "string.h"
-#include<vector>
+#include <vector>
 #include <assert.h>
 
 using namespace std;
@@ -32,14 +32,14 @@ typedef struct trans_type
 
    trans_type()
    {
-      port_id =0;
-      que_id  =0;
-      packet_id =0;
-      packet_len =0;
-      valid_len  =0;
-      pri_id     =0;
-      is_sop     =false;
-      is_eop     =false;
+      port_id    = 0;
+      que_id     = 0;
+      packet_id  = 0;
+      packet_len = 0;
+      valid_len  = 0;
+      pri_id     = 0;
+      is_sop     = false;
+      is_eop     = false;
    }
 } TRANS_STR; 
 
@@ -57,9 +57,9 @@ class global_config_c
    public:
    global_config_c()
    {
-      m_freq = g_m_freq;
-      m_inter_num =g_m_inter_num; 
-      m_sch_sel = 1;
+      m_freq      = g_m_freq;
+      m_inter_num = g_m_inter_num; 
+      m_sch_sel   = 1;
       shape_value = 1000;
    }
 }; 
