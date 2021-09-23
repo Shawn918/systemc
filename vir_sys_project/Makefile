@@ -15,7 +15,7 @@ SOURCES = comm_func.cpp \
 	  test.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
-APPNAME = test
+APPNAME = go
 
 all: $(APPNAME)
 

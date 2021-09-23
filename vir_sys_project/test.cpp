@@ -13,8 +13,7 @@
 using namespace std;
 
 
-int sc_main(int argc, char *argv[])
-{
+int sc_main(int argc, char *argv[]) {
    sc_clock clk("clk",100,SC_NS);  //100ns 对应10MHZ 
 
    //init the I/O between [pkt_gen_mod] [ing_sch_mod]
@@ -29,7 +28,7 @@ int sc_main(int argc, char *argv[])
    *glb_cfg = new global_config_c();
 
    packet_gen_module 
-   pkt_gen_mod("packet_gen", glb_cfg);
+   pkt_gen_mod("pkt_gen", glb_cfg);
    pkt_gen_mod.clk(clk);
  
    ingress_sch 
@@ -45,7 +44,7 @@ int sc_main(int argc, char *argv[])
    }
    //char
 
-   sc_start(100,SC_MS);
+   sc_start(100,SC_US);
 
    return 0;
 }
