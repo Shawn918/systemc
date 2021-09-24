@@ -3,7 +3,7 @@
 
 #include "ingress_sch.h"  //激励包长应从顶层获取，先配置固定256B，稍后再改
 ingress_sch::
-ingress_sch(string name, global_config_c *glb_cfg):sc_module(name){
+ingress_sch(sc_module_name name, global_config_c *glb_cfg):sc_module(name){
     m_cycle_cnt =0;
     m_cfg = glb_cfg;
     input_fifo.resize(g_m_inter_num);

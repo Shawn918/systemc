@@ -47,7 +47,7 @@ typedef struct trans_type
    }
 */
    friend ostream& operator<< (ostream &out, trans_type &A){
-       out << sc_time_stamp() << "=> " 
+       out << sc_time_stamp() << "|=> " 
            << "[s:" << (A.sport_id) 
            << ", d:"<< (A.dport_id)
            << ", i:"<< (A.pkt_id)
@@ -59,25 +59,34 @@ typedef struct trans_type
 
 } TRANS_STR; 
 
-typedef  std::shared_ptr<TRANS_STR>  TRANS;
 
-
+// 全局配置数据结构
+struct para{
+   int  m_freq;           //主频,单位MHZ
+   int  m_inter_num;      //接口数
+   int  m_sch_sel;        //调度器选择 0:SP 1:RR  2:WRR
+   int  shape_value;      //限速值 单位Mbps
+};
 
 // 全局配置
-class global_config_c
+class global_config_c : public sc_module
 {
    public:
-      int  m_freq;           //主频,单位MHZ
-      int  m_inter_num;      //接口数
-      int  m_sch_sel;        //调度器选择 0:SP 1:RR  2:WRR
-      int  shape_value;      //限速值 单位Mbps
-   public:
-   global_config_c() {
-      m_freq      = g_m_freq;
-      m_inter_num = g_m_inter_num; 
-      m_sch_sel   = 1;
-      shape_value = 1000;
-   }
+      para para_init;      //初始化全局配置
+      int  glb_clk_cnt;    //全局时钟计数
+      SC_HAS_PROCESS(global_config_c);
+      global_config_c(sc_module_name name): public sc_module(name),
+      //初始化全局配置
+      para_init.m_freq(g_m_freq),
+      para_init.m_inter_num(g_m_inter_num), 
+      para_init.m_sch_sel(1),
+      para_init.shape_value(1000),
+      //初始化全局时钟计数
+      glb_clk_cnt(0)
+     {
+           SC_METHOD(clock_cnt){glb_clk_cnt++};
+           sensitive << clk.pos();
+     }
 }; 
 
 #define  ASSERT(A)  (assert(A))

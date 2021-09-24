@@ -12,8 +12,8 @@ class ingress_sch: public sc_module{
     sc_in_clk clk; 
     global_config_c *m_cfg;
 
+    ingress_sch(sc_module_name name, global_config_c *glb_cfg);
     SC_HAS_PROCESS(ingress_sch);
-    ingress_sch(string name, global_config_c *glb_cfg);
     
     void main_process();
     void recv_packet_process();
