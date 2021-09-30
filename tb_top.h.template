@@ -1,0 +1,91 @@
+///////////////////////////////////////////////////////////
+//Project: Carbon
+//Description: SystemC 虚拟项目1
+//Module: tb_top.h
+//Description: 测试台 top 文件，实例化各测试模块
+//Group: Nebula-Matrix 预研组
+//Author: 张三
+//Hierarchy：
+//             tb_top __:stim
+//                    |_:stat
+//                    |_:test_ctrl
+////////////////////////////////////////////////////////////
+
+//1.防重定义
+#ifndef __TB_TOP_H__
+#define __TB_TOP_H__
+
+//2.include工具库
+#include "stdio.h"
+#include <iostream>
+#include <memory>
+#include "systemc.h"   
+
+//3.include子模块库
+#include "stim.h"      //激励模块
+#include "stat.h"      //统计模块
+#include "test_ctrl.h" //测试控制模块
+#include "comm_def.h"  //通用定义
+#include "comm_func.h" //通用函数
+
+using namespace std;   
+class tb_top: public sc_module
+{
+
+//4.端口声明
+  public: 
+    sc_in_clk clk;
+    sc_out<int> 全局时钟计数器1;
+    vector< sc_out<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
+    vector<  sc_in<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
+
+//4.信号声明
+    数据类型1 信号1;
+    数据类型1 信号2;
+    数据类型2 信号3;
+
+//5.模块声明
+    tb_top(sc_module_name name); 
+
+//6.子模块声明
+    stim *stim1;
+    stat *stat1;
+    test_ctrl *test_ctrl;
+
+
+//7.函数声明
+    SC_HAS_PROCESS(tb_top);
+    void tb_top_process()
+
+};
+ 
+class packet_gen_module: public sc_module
+{
+
+   //a.信号定义
+   sc_clock 全局时钟("clk",100,SC_NS);                  
+   sc_signal<int> 全局时钟计数器1;
+   全局配置模板    全局配置信号1;  
+   vector< sc_signal<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
+   vector< sc_signal<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
+
+
+   //b.模块例化
+   dut_top dut_top_inst("dut_top1", glb_cfg);
+   testbench testbench_inst("tb_top1", glb_cfg);
+
+   //c.信号连接 
+   dut_top_inst.clk_cnt(gclk_cnt);
+   dut_top.输入口1(激励信号1);
+   dut_top.输出口1(产出信号1);
+
+   testbench.clkcnt(gclkcnt);
+   testbench.clk(clk);
+   testbench.激励口1(激励信号1);
+   testbench.输入口1(产出信号1);
+   
+   //d.仿真启动
+   sc_start(100,SC_US);
+
+   return 0;
+}

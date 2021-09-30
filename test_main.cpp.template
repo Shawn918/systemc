@@ -1,0 +1,60 @@
+///////////////////////////////////////////////////////////
+//Project: Carbon
+//Description: SystemC 虚拟项目1
+//Module: test_main.cpp
+//Description: 测试平台 main 文件，实例化顶层 DUT 和测试台
+//Group: Nebula-Matrix 预研组
+//Author: 张三
+//Hierarchy：
+//test_main__:tb_top ___:stim
+//         |          |_:stat
+//         |          |_:test_ctrl
+//         |_:dut_top__:L1_mod1
+//                   |_:L1_mod2             
+//                   |_:L1_mod3             
+//                   |_:L1_mod4             
+////////////////////////////////////////////////////////////
+
+//1.include 工具库
+#include "stdio.h"
+#include <iostream>
+#include <memory>
+#include "systemc.h"   
+
+//2.include 子模块头文件
+#include "tb_top.h"    //测试台顶层
+#include "dut_top.h"   //DUT顶层
+#include "comm_def.h"  //通用定义
+#include "comm_func.h" //通用函数
+
+using namespace std;   
+
+int sc_main(int argc, char *argv[]) {
+
+   //3.信号定义
+   sc_clock 全局时钟("clk",100,SC_NS);                  
+   sc_signal<int> 全局时钟计数器1;
+   全局配置模板    全局配置信号1;  
+   vector< sc_signal<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
+   vector< sc_signal<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
+
+
+   //4.模块例化
+   dut_top dut_top_inst("dut_top1");
+   tb_top  tb_top_inst("tb_top1");
+
+   //5.信号连接 
+   dut_top_inst.clk_cnt(gclk_cnt);
+   dut_top.输入口1(激励信号1);
+   dut_top.输出口1(产出信号1);
+
+   tb_top_inst.clkcnt(gclkcnt);
+   tb_top_inst.clk(clk);
+   tb_top_inst.激励口1(激励信号1);
+   tb_top_inst.输入口1(产出信号1);
+   
+   //6.仿真启动
+   sc_start(100,SC_US);
+
+   return 0;
+}
