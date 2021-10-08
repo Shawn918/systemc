@@ -34,7 +34,7 @@ int sc_main(int argc, char *argv[]) {
    //3.信号定义
    sc_clock 全局时钟("clk",100,SC_NS);                  
    sc_signal<int> 全局时钟计数器1;
-   全局配置模板    全局配置信号1;  
+   sc_signal<DUT配置模板> DUT配置信号1;  //由 tb_top 配置 DUT 的信号
    vector< sc_signal<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
    vector< sc_signal<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
 
@@ -44,14 +44,16 @@ int sc_main(int argc, char *argv[]) {
    tb_top  tb_top_inst("tb_top1");
 
    //5.信号连接 
-   dut_top_inst.clk_cnt(gclk_cnt);
-   dut_top.输入口1(激励信号1);
-   dut_top.输出口1(产出信号1);
+   dut_top_inst.全局时钟计数器输入1(全局时钟计数器1);
+   dut_top_inst.配置输入口1(DUT配置信号1);
+   dut_top_inst.激励输入口1(激励信号1);
+   dut_top_inst.产出输出口1(产出信号1);
 
-   tb_top_inst.clkcnt(gclkcnt);
-   tb_top_inst.clk(clk);
-   tb_top_inst.激励口1(激励信号1);
-   tb_top_inst.输入口1(产出信号1);
+   tb_top_inst.全局时钟输入(clk);
+   tb_top_inst.全局时钟计数器输出1(全局时钟计数器1);
+   tb_top_inst.配置输出口1(DUT配置信号1);
+   tb_top_inst.激励输出口1(激励信号1);
+   tb_top_inst.产出输入口1(产出信号1);
    
    //6.仿真启动
    sc_start(100,SC_US);
