@@ -34,8 +34,8 @@ int sc_main(int argc, char *argv[]) {
    sc_clock gclk("clk",100,SC_NS);                  
    sc_signal<int> gclk_cnt;
    sc_signal<dut_cfg> dut_cfg_bus;  //由 tb_top 配置 DUT 的信号
-   vector< sc_signal<pkt_desc> [4] > pkt_stim;  //参数化激励连接信号定义
-   vector< sc_signal<pkt_desc> [4] > pkt_stat;  //参数化输出连接信号定义
+   vector< sc_signal<pkt_desc> [CONST_NO_PORTS] > pkt_stim;  //参数化激励连接信号定义
+   vector< sc_signal<pkt_desc> [CONST_NO_PORTS] > pkt_stat;  //参数化输出连接信号定义
 
    //4.模块例化
    dut_top dut_top_inst("dut_top1");
