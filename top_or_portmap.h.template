@@ -1,0 +1,77 @@
+///////////////////////////////////////////////////////////
+//Project: Carbon
+//Description: SystemC 虚拟项目1
+//Module: top_or_portmap.h
+//Description:  top或其他仅连接实例化各子模块用的模块
+//Group: Nebula-Matrix 预研组
+//Author: 张三
+//Hierarchy：
+//  top_or_portmap __:modulea
+//                 |_:moduleb
+//                 |_:modulec
+////////////////////////////////////////////////////////////
+
+//1.防重定义
+#ifndef __TOP_OR_PORTMAP_H__
+#define __TOP_OR_PORTMAP_H__
+
+//2.include工具库
+#include "stdio.h"
+#include <iostream>
+#include <memory>
+#include "systemc.h"   
+
+//3.include子模块库
+#include "modulea.h"   //子模块1
+#include "moduleb.h"   //子模块2
+#include "modulec.h"   //子模块3
+
+using namespace std;   
+class top_or_portmap: public sc_module
+{
+
+//4.端口声明
+  public: 
+    sc_in<int> 全局时钟计数器1;
+    sc_in<配置模板> 配置输入口1; 
+    vector< sc_in<数据类型> [参数] > 报文输入口1;  //参数化输入连接信号定义
+    vector<sc_out<数据类型> [参数] > 报文输出口1;  //参数化输出连接信号定义
+
+//5.信号声明
+    sc_signal<数据类型1> 信号1;  //内部模块间的对接信号
+    sc_signal<数据类型2> 信号2;  //内部模块间的对接信号
+
+//6.模块声明
+    top_or_portmap(sc_module_name name); 
+    SC_HAS_PROCESS(top_or_portmap);
+
+//7.子模块声明
+    modulea *modulea1;
+    moduleb *moduleb1;
+    modulec *modulec1;
+
+//8.子模块例化    
+
+    modulea1 = new modulea("modulea1")；
+    moduleb1 = new moduleb("moduleb1");
+    modulec1 = new modulec("modulec1");
+ 
+//9.信号连接 
+    modulea1->时钟计数输入口(全局时钟计数器1);
+    modulea1->配置输入口1(配置输入口1);
+    modulea1->报文输入口1(报文输入口1);
+    modulea1->报文输出口1(信号1);
+
+    moduleb1->时钟计数输入口(全局时钟计数器1);
+    moduleb1->配置输入口1(配置输入口1);
+    moduleb1->报文输入口1(信号1);
+    moduleb1->报文输出口1(信号2);
+
+    modulec1->时钟计数输入口(全局时钟计数器1);
+    modulec1->配置输入口1(配置输入口1);
+    modulec1->报文输入口1(信号2);
+    modulec1->报文输出口1(报文输出口1);
+
+};
+ 
+#endif

@@ -6,9 +6,9 @@
 //Group: Nebula-Matrix 预研组
 //Author: 张三
 //Hierarchy：
-//             tb_top __:stim
+//             tb_top __:test_ctrl
+//                    |_:stim
 //                    |_:stat
-//                    |_:test_ctrl
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
@@ -34,18 +34,18 @@ class tb_top: public sc_module
 
 //4.端口声明
   public: 
-    sc_in_clk clk;
-    sc_out<int> 全局时钟计数器1;
-    vector< sc_out<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
-    vector<  sc_in<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
+    sc_in_clk   全局时钟输入;
+    sc_out<int> 全局时钟计数器输出1;
+    sc_out< DUT配置模板> DUT配置输出口1; 
+    vector<sc_out<数据类型> [参数] > 激励输出口1;  //参数化激励连接信号定义
+    vector< sc_in<数据类型> [参数] > 产出输入口1;  //参数化输出连接信号定义
 
 //4.信号声明
-    数据类型1 信号1;
-    数据类型1 信号2;
-    数据类型2 信号3;
+    sc_signal<TB配置模板> TB配置信号1;  //由 tb_top 配置 DUT 的信号
 
 //5.模块声明
     tb_top(sc_module_name name); 
+    SC_HAS_PROCESS(tb_top);
 
 //6.子模块声明
     stim *stim1;
@@ -53,39 +53,26 @@ class tb_top: public sc_module
     test_ctrl *test_ctrl;
 
 
-//7.函数声明
-    SC_HAS_PROCESS(tb_top);
-    void tb_top_process()
+//7.函数声明    
+
+    test_ctrl = new test_ctrl("test_ctrl1")；
+    stim1 = new stim("stim1");
+    stat1 = new stat("stat1");
+ 
+//8.信号连接 
+    test_ctrl1->clk(全局时钟输入); 
+    test_ctrl1->clk_cnt(全局时钟计数器输出1); //由test_ctrl模块直接输出给所有其他模块
+    test_ctrl1->DUT配置输出口1(DUT配置输出口1);
+    test_ctrl1->TB输出口1(TB配置输出口1);
+
+    stim1->clkcnt(全局时钟计数器输出1);
+    stim1->TB配置输入1(TB配置信号1);
+    stim1->激励口1(激励信号1);
+
+    stat1->clkcnt(全局时钟计数器输出1);
+    stat1->TB配置输入1(TB配置信号1);
+    stat1->接收口1(产出信号1);
 
 };
  
-class packet_gen_module: public sc_module
-{
-
-   //a.信号定义
-   sc_clock 全局时钟("clk",100,SC_NS);                  
-   sc_signal<int> 全局时钟计数器1;
-   全局配置模板    全局配置信号1;  
-   vector< sc_signal<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
-   vector< sc_signal<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
-
-
-   //b.模块例化
-   dut_top dut_top_inst("dut_top1", glb_cfg);
-   testbench testbench_inst("tb_top1", glb_cfg);
-
-   //c.信号连接 
-   dut_top_inst.clk_cnt(gclk_cnt);
-   dut_top.输入口1(激励信号1);
-   dut_top.输出口1(产出信号1);
-
-   testbench.clkcnt(gclkcnt);
-   testbench.clk(clk);
-   testbench.激励口1(激励信号1);
-   testbench.输入口1(产出信号1);
-   
-   //d.仿真启动
-   sc_start(100,SC_US);
-
-   return 0;
-}
+#endif
