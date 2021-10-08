@@ -9,8 +9,8 @@
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
-#ifndef __TEST_CTRL_H__
-#define __TEST_CTRL_H__
+#ifndef __TEST_CTRL_MOD_H__
+#define __TEST_CTRL_MOD_H__
 
 //2.include工具库
 #include "stdio.h"
@@ -19,7 +19,7 @@
 #include "systemc.h"   
 
 using namespace std;   
-class test_ctrl: public sc_module
+class test_ctrl_mod: public sc_module
 {
 
 //3.端口声明
@@ -35,42 +35,37 @@ class test_ctrl: public sc_module
     sc_signal< tb_cfg>   tb_cfg_sig;  
 
 //5.模块声明
-    test_ctrl(sc_module_name name); 
-    SC_HAS_PROCESS(test_ctrl);
+    test_ctrl_mod(sc_module_name name); 
+    SC_HAS_PROCESS(test_ctrl_mod);
 
 //6.函数声明    
-    void read_cfg();
     void clk_count();    
 
 };
 
-test_ctrl::
-test_ctrl(sc_module_name name):sc_module(name)
+test_ctrl_mod::
+test_ctrl_mod(sc_module_name name):sc_module(name)
 {
-    SC_METHOD(read_cfg);
-    sensitive << clk_cnt_sig;
-    SC_THREAD(clk_count);
-    sensitive << clk_in;
-}
-
-void test_ctrl::
-    read_cfg() {
     //    dut_cfg_sig = f(配置文件)；
     //    tb_cfg_sig  = f(配置文件)；
     //    dut_cfg_out = dut_cfg_sig；
     //    tb_cfg_out  = tb_cfg_sig；
-    cout<<"读取文件预留位置."
+    cout<<"读取文件预留位置.\n";
+
+    SC_THREAD(clk_count);
+    sensitive << clk_in;
 }
 
-void function_module::
-function_module_action2() {
+
+void test_ctrl_mod::
+clk_count() {
+    clk_cnt_sig=0;
     while(true){
-        变量2=f(变量1,信号1，报文输入口1,配置输入口1);
-        信号2=f(变量1,变量2，信号1，报文输入口1,配置输入口1);
-        报文输出口1=信号2;
+        clk_cnt_sig++;
+        clk_cnt_out=clk_cnt_sig;
         wait();
     }
 }
 
 
-#endif
+#endif  //__TEST_CTRL_MOD_H__
