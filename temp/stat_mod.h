@@ -47,7 +47,10 @@ stat_mod(sc_module_name name):sc_module(name){
 
 void stat_mod::
 pkt_dump() {
-    cout <<  pkt_stat_in;
+    if (pkt_stat_in.read().fsn >= 0) {
+    cout << "@"<< clk_cnt_in <<"_clks stat rcv  <=:"
+         << pkt_stat_in;
+    };
 }
 
 #endif //__STAT_MOD_H__

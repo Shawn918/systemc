@@ -67,9 +67,11 @@ stim_mod(sc_module_name name):sc_module(name)
 
 void stim_mod::
 pkt_gen() {
+    cout << "@" << clk_cnt_in << "_clks stim sent =>:"
+         << pkt_desc_tmp;
+    pkt_stim_out = pkt_desc_tmp;
     //pkt_desc_tmp[clk_cnt_in % NO_PORTS].fsn++;
     pkt_desc_tmp.fsn++; //sample 1
-    pkt_stim_out = pkt_desc_tmp;
 }
 /*
 void stim_mod::

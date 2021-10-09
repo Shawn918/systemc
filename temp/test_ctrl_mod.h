@@ -50,13 +50,16 @@ test_ctrl_mod(sc_module_name name):sc_module(name)
     cout<<"读取文件预留位置.\n";
 
     SC_THREAD(clk_count);
-    sensitive << clk_in;
+    sensitive << clk_in.pos();
 }
 
 
 void test_ctrl_mod::
 clk_count() {
     clk_cnt_sig=0;
+    wait();
+    wait();
+    wait();
     while(true){
         clk_cnt_sig++;
         clk_cnt_out = clk_cnt_sig;

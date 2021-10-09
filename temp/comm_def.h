@@ -43,8 +43,8 @@ struct pkt_desc{
              pkt.qid == qid && pkt.dport == dport);
     }
 
-   friend ostream& operator<< (ostream &out, pkt_desc &A){
-    out << sc_time_stamp() << "|=> " 
+   friend ostream& operator<< (ostream &out, const pkt_desc &A){
+    out << "@" << sc_time_stamp() 
         << "[ s:"<< (A.sid) 
         << ", d:"<< (A.did)
         << ", n:"<< (A.fsn)

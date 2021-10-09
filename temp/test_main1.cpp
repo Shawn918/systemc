@@ -36,7 +36,8 @@ int sc_main(int argc, char *argv[]) {
 
    //4.模块例化
 //   dut_top dut_top_inst("dut_top1");
-   tb_top  tb_top_inst("tb_top_inst");
+   tb_top  *tb_top_inst;
+   tb_top_inst = new tb_top("tb_top_inst");
 
    //5.信号连接 
 //   dut_top_inst.clk_cnt_in(gclk_cnt);
@@ -44,15 +45,15 @@ int sc_main(int argc, char *argv[]) {
 //   dut_top_inst.pkt_in(pkt_stim);
 //   dut_top_inst.pkt_out(pkt_stat);
 
-   tb_top_inst.clk_in(gclk);
-   tb_top_inst.clk_cnt_out(gclk_cnt);
+   tb_top_inst->clk_in(gclk);
+//   tb_top_inst.clk_cnt_out(gclk_cnt);
 //   tb_top_inst.dut_cfg_out(dut_cfg_bus);
-   tb_top_inst.pkt_stim_out(pkt_stim_sig);
-   tb_top_inst.pkt_stat_in(pkt_stim_sig);
+   tb_top_inst->pkt_stim_out(pkt_stim_sig);
+   tb_top_inst->pkt_stat_in(pkt_stim_sig);
 //   tb_top_inst.pkt_stat_in(pkt_stat);
 
    //6.仿真启动
-   sc_start(100,SC_US);
+   sc_start(1,SC_US);
 
    return 0;
 }
