@@ -35,6 +35,7 @@ struct pkt_desc{
         dport = -1;  //-1 indicate not used
     }
 
+
     inline bool operator == (const pkt_desc& pkt) const{
      return (pkt.sid == sid && pkt.did == did && 
              pkt.fsn == fsn && pkt.len == len && 
@@ -57,7 +58,6 @@ struct pkt_desc{
    }
 
 };
-
 
 inline void
 #if defined(SC_API_VERSION_STRING)

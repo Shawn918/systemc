@@ -16,15 +16,11 @@
 ////////////////////////////////////////////////////////////
 
 //1.include 工具库
-#include "stdio.h"
-#include <iostream>
-#include <memory>
-#include "systemc.h"   
+#include "comm_def.h"
 
 //2.include 子模块头文件
 #include "tb_top.h"    //测试台顶层
 //#include "dut_top.h"   //DUT顶层
-#include "comm_def.h"  //通用定义
 
 //using namespace std;   
 

@@ -13,9 +13,7 @@
 #define __STIM_MOD_H__
 
 //2.include工具库
-#include "stdio.h"
-#include "systemc.h"   
-#include <math.h>
+#include "comm_def.h"
 
 //using namespace std;   
 class stim_mod: public sc_module

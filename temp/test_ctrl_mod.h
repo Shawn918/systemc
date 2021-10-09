@@ -13,10 +13,7 @@
 #define __TEST_CTRL_MOD_H__
 
 //2.include工具库
-#include "stdio.h"
-#include <iostream>
-#include <memory>
-#include "systemc.h"   
+#include "comm_def.h"
 
 //using namespace std;   
 class test_ctrl_mod: public sc_module

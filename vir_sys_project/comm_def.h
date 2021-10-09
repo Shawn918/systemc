@@ -59,7 +59,28 @@ typedef struct trans_type
 
 } TRANS_STR; 
 
+typedef  std::shared_ptr<TRANS_STR>  TRANS;
 
+// 全局配置
+class global_config_c
+{
+   public:
+      int  m_freq;           //主频,单位MHZ
+      int  m_inter_num;      //接口数
+      int  m_sch_sel;        //调度器选择 0:SP 1:RR  2:WRR
+      int  shape_value;      //限速值 单位Mbps
+      int  stat_period;       //统计间隔，以us为单位
+   public:
+   global_config_c()
+   {
+      m_freq = g_m_freq;
+      m_inter_num =g_m_inter_num; 
+      m_sch_sel = 1;
+      shape_value = 1000;
+      stat_period = 10;
+   }
+}; 
+/*
 // 全局配置数据结构
 struct para{
    int  m_freq;           //主频,单位MHZ
@@ -88,7 +109,7 @@ class global_config_c : public sc_module
            sensitive << clk.pos();
      }
 }; 
-
+*/
 #define  ASSERT(A)  (assert(A))
 
 

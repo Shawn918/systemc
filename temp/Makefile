@@ -9,10 +9,7 @@ LDFLAGS  += $(shell pkg-config --libs-only-L     systemc)
 LDLIBS   += $(shell pkg-config --libs-only-other systemc)
 LDLIBS   += $(shell pkg-config --libs-only-l     systemc)
 
-SOURCES = comm_func.cpp \
-	  ingress_sch.cpp \
-	  packet_gen.cpp \
-	  test.cpp
+SOURCES = test_main1.cpp 
 
 OBJECTS = $(SOURCES:.cpp=.o)
 APPNAME = run

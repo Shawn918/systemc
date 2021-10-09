@@ -34,8 +34,8 @@ class top_or_portmap: public sc_module
   public: 
     sc_in<int> 全局时钟计数器1;
     sc_in<配置模板> 配置输入口1; 
-    vector< sc_in<数据类型> [参数] > 报文输入口1;  //参数化输入连接信号定义
-    vector<sc_out<数据类型> [参数] > 报文输出口1;  //参数化输出连接信号定义
+    array< sc_in<数据类型>, [参数] > 报文输入口1;  //参数化输入连接信号定义
+    array<sc_out<数据类型>, [参数] > 报文输出口1;  //参数化输出连接信号定义
 
 //5.信号声明
     sc_signal<数据类型1> 信号1;  //内部模块间的对接信号

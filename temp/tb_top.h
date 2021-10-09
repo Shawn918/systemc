@@ -16,10 +16,7 @@
 #define __TB_TOP_H__
 
 //2.include工具库
-#include "stdio.h"
-#include <iostream>
-#include <memory>
-#include "systemc.h"   
+#include "comm_def.h" 
 
 //3.include子模块库
 #include "stim_mod.h"      //激励模块

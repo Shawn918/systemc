@@ -4,12 +4,11 @@
 #include "packet_gen.h"
 //激励包长应从顶层获取，先配置固定256B，稍后再改
 packet_gen_module::
-packet_gen_module(sc_module_name name, global_config_c *glb_cfg):sc_module(name)
+packet_gen_module(sc_module_name name, global_config_c *glb_cfg):sc_module(name),
+    m_cycle_cnt(0),
+    m_packet_id(0),
+    m_cfg(glb_cfg)
 {
-    m_cycle_cnt =0;
-    m_packet_id =0;
-    m_cfg = glb_cfg;
-    
     output.resize(g_m_inter_num);
     for(int i=0; i < g_m_inter_num; i++) {
         output[i] =new sc_fifo_out<TRANS>;

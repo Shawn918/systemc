@@ -1,0 +1,11 @@
+#include "top.h"
+
+top::top(sc_module_name name, global_config_c * glb_cfg):sc_module(name),
+ing_sch_inst(new ingress_sch("recv_sch", glb_cfg))
+{
+    topin_fifo.resize(g_m_inter_num);
+    ing_sch_inst->clk(clk);
+    for(int i=0; i < g_m_inter_num; i++){
+        (ing_sch_inst->input_fifo[i])->bind(*topin_fifo[i]);
+    }
+}

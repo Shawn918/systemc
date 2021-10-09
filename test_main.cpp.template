@@ -35,8 +35,8 @@ int sc_main(int argc, char *argv[]) {
    sc_clock 全局时钟("clk",100,SC_NS);                  
    sc_signal<int> 全局时钟计数器1;
    sc_signal<DUT配置模板> DUT配置信号1;  //由 tb_top 配置 DUT 的信号
-   vector< sc_signal<数据类型> [参数] > 激励信号1;  //参数化激励连接信号定义
-   vector< sc_signal<数据类型> [参数] > 产出信号1;  //参数化输出连接信号定义
+   array< sc_signal<数据类型>, [参数] > 激励信号1;  //参数化激励连接信号定义
+   array< sc_signal<数据类型>, [参数] > 产出信号1;  //参数化输出连接信号定义
 
 
    //4.模块例化
