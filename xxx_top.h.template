@@ -12,8 +12,8 @@
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
-#ifndef __TOP_OR_PORTMAP_H__
-#define __TOP_OR_PORTMAP_H__
+#ifndef __XXX_TOP_H__
+#define __XXX_TOP_H__
 
 //2.include工具库
 #include "stdio.h"
@@ -74,4 +74,4 @@ class top_or_portmap: public sc_module
 
 };
  
-#endif
+#endif  //__XXX_TOP_H__

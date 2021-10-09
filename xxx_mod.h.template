@@ -9,8 +9,8 @@
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
-#ifndef __FUNCTION_MODULE_H__
-#define __FUNCTION_MODULE_H__
+#ifndef __XXX_MOD_H__
+#define __XXX_MOD_H__
 
 //2.include工具库
 #include "stdio.h"
@@ -76,4 +76,4 @@ function_module_action2() {
 }
 
 
-#endif
+#endif //__XXX_MOD_H__
