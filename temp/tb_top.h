@@ -33,10 +33,10 @@ class tb_top: public sc_module
     sc_in_clk clk_in;                  //全局时钟输入
 //    sc_out<int> clk_cnt_out;           //全局时钟计数输出，由test_ctrl根据全局时钟输入产生
 //    sc_out<dut_cfg> dut_cfg_out;       //由test_ctrl读取文件产生
-    sc_in<pkt_desc> pkt_stat_in;   //sample 1个
-    sc_out<pkt_desc> pkt_stim_out;  //sample 1个
-//    array<  sc_in<pkt_desc>, NO_PORTS > pkt_stat_in;   //由stat模块接收的报文
-//    array< sc_out<pkt_desc>, NO_PORTS > pkt_stim_out;  //由stim产生的激励报文
+//    sc_in<pkt_desc> pkt_stat_in;   //sample 1个
+//    sc_out<pkt_desc> pkt_stim_out;  //sample 1个
+    std::array<  sc_in<pkt_desc>, NO_PORTS > pkt_stat_in;   //由stat模块接收的报文
+    std::array< sc_out<pkt_desc>, NO_PORTS > pkt_stim_out;  //由stim产生的激励报文
 
 //5.信号声明
     sc_signal<int> gclk_cnt;           //由test_ctrl产生，需要输出给外部和tb_top内部其他子模块
@@ -66,12 +66,14 @@ class tb_top: public sc_module
     //9.信号连接 
         stim_inst->clk_cnt_in(gclk_cnt);
         //stim_inst->tb_cfg_in(tb_cfg_sig);
-        stim_inst->pkt_stim_out(pkt_stim_out);
-
+        for (int i=0;i<NO_PORTS;i++){
+            stim_inst->pkt_stim_out[i](pkt_stim_out[i]);
+        }
         stat_inst->clk_cnt_in(gclk_cnt);
         //stat_inst->tb_cfg_in(tb_cfg_sig);
-        stat_inst->pkt_stat_in(pkt_stat_in);
-    
+        for (int i=0;i<NO_PORTS;i++){
+            stat_inst->pkt_stat_in[i](pkt_stat_in[i]);
+        }
         test_ctrl_inst->clk_in(clk_in);
         test_ctrl_inst->clk_cnt_out(gclk_cnt);
         //test_ctrl_inst->dut_cfg_out(dut_cfg_out);

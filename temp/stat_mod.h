@@ -24,11 +24,11 @@ class stat_mod: public sc_module
   public: 
     sc_in<int> clk_cnt_in;
     //sc_in<tb_cfg> tb_cfg_in; 
-    sc_in<pkt_desc> pkt_stat_in;  //sample 1
-    //array< sc_in<pkt_desc>, NO_PORTS > pkt_stat_in;  
+    //sc_in<pkt_desc> pkt_stat_in;  //sample 1
+    std::array< sc_in<pkt_desc>, NO_PORTS > pkt_stat_in;  
 
 //4.信号声明
-
+    std::array< pkt_desc, NO_PORTS > pkt_stat_buf; 
 
 //5.模块声明
     stat_mod(sc_module_name name); 
@@ -42,15 +42,22 @@ class stat_mod: public sc_module
 stat_mod::
 stat_mod(sc_module_name name):sc_module(name){
     SC_METHOD(pkt_dump);
-    sensitive<< pkt_stat_in;
+    for(int i=0; i < NO_PORTS; i++){
+        sensitive<< pkt_stat_in[i];
+    }
 }
 
 void stat_mod::
 pkt_dump() {
-    if (pkt_stat_in.read().fsn >= 0) {
-    cout << "@"<< clk_cnt_in <<"_clks stat rcv  <=:"
-         << pkt_stat_in;
-    };
+    for(int i=0; i < NO_PORTS; i++){
+        if ((pkt_stat_in[i].read().fsn >= 0) && 
+           !(pkt_stat_in[i].read() == pkt_stat_buf[i])){
+            cout << "@"<< clk_cnt_in <<"_clks stat rcv  <=:"
+                 << pkt_stat_in[i];
+            pkt_stat_buf[i] = pkt_stat_in[i];
+        }
+    }
+    
 }
 
 #endif //__STAT_MOD_H__

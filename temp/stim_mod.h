@@ -23,13 +23,14 @@ class stim_mod: public sc_module
   public: 
     sc_in<int> clk_cnt_in;
 //    sc_in<tb_cfg> tb_cfg_in; 
-    sc_out<pkt_desc> pkt_stim_out;  //sample 1个
-//    array<sc_out<pkt_desc>, NO_PORTS > pkt_stim_out;  
+//    sc_out<pkt_desc> pkt_stim_out;  //sample 1个
+    std::array<sc_out<pkt_desc>, NO_PORTS > pkt_stim_out;  
     
 //4.信号声明
-     pkt_desc pkt_desc_tmp;  
-//    array< pkt_desc, NO_PORTS > pkt_desc_tmp;  
-    
+    // pkt_desc pkt_desc_tmp;  
+    std::array<pkt_desc, NO_PORTS > pkt_desc_tmp;  
+    std::array<pkt_desc, NO_PORTS > pkt_desc_buf;
+
 //5.模块声明
     stim_mod(sc_module_name name); 
     SC_HAS_PROCESS(stim_mod);
@@ -43,21 +44,21 @@ class stim_mod: public sc_module
 stim_mod::
 stim_mod(sc_module_name name):sc_module(name)
 {
-/*    for(int i=0; i < NO_PORTS; i++)
-    {
+    for(int i=0; i < NO_PORTS; i++){
         pkt_desc_tmp[i].sid = i;
         pkt_desc_tmp[i].did = NO_PORTS-1-i;
         pkt_desc_tmp[i].fsn = 0;
         pkt_desc_tmp[i].len = 64;
         pkt_desc_tmp[i].pri = 0;
         pkt_desc_tmp[i].fid = i;
-    }*/
+    }
+    /*
         pkt_desc_tmp.sid = 0;//sample 1
         pkt_desc_tmp.did = NO_PORTS-1;//sample 1
         pkt_desc_tmp.fsn = 0;//sample 1
         pkt_desc_tmp.len = 64;//sample 1
         pkt_desc_tmp.pri = 0;//sample 1
-        pkt_desc_tmp.fid = 0; //sample 1
+        pkt_desc_tmp.fid = 0; //sample 1*/
 
     SC_METHOD(pkt_gen);
     sensitive << clk_cnt_in;
@@ -67,11 +68,16 @@ stim_mod(sc_module_name name):sc_module(name)
 
 void stim_mod::
 pkt_gen() {
-    cout << "@" << clk_cnt_in << "_clks stim sent =>:"
-         << pkt_desc_tmp;
-    pkt_stim_out = pkt_desc_tmp;
-    //pkt_desc_tmp[clk_cnt_in % NO_PORTS].fsn++;
-    pkt_desc_tmp.fsn++; //sample 1
+    for(int i=0; i < NO_PORTS; i++){
+        if (!(pkt_desc_buf[i]==pkt_desc_tmp[i])) {
+            cout << "@" << clk_cnt_in << "_clks stim sent =>:"
+                 << pkt_desc_tmp[i];
+            pkt_desc_buf[i] = pkt_desc_tmp[i];
+            pkt_stim_out[i] = pkt_desc_buf[i];
+        }
+    }
+    pkt_desc_tmp[clk_cnt_in % NO_PORTS].fsn++;
+    //pkt_desc_tmp.fsn++; //sample 1
 }
 /*
 void stim_mod::

@@ -30,8 +30,8 @@ int sc_main(int argc, char *argv[]) {
    sc_clock gclk("clk",100,SC_NS);                  
    sc_signal<int> gclk_cnt;
 //   sc_signal<dut_cfg> dut_cfg_bus;  //由 tb_top 配置 DUT 的信号
-   sc_signal<pkt_desc>       pkt_stim_sig;  //sample 1个
-//   array< sc_signal<pkt_desc>, NO_PORTS > pkt_stim_sig;  //参数化激励连接信号定义
+   //sc_signal<pkt_desc>       pkt_stim_sig;  //sample 1个
+   std::array< sc_signal<pkt_desc>, NO_PORTS > pkt_stim_sig;  //参数化激励连接信号定义
 //   array< sc_signal<pkt_desc>, NO_PORTS > pkt_stat_sig;  //参数化输出连接信号定义
 
    //4.模块例化
@@ -48,8 +48,10 @@ int sc_main(int argc, char *argv[]) {
    tb_top_inst->clk_in(gclk);
 //   tb_top_inst.clk_cnt_out(gclk_cnt);
 //   tb_top_inst.dut_cfg_out(dut_cfg_bus);
-   tb_top_inst->pkt_stim_out(pkt_stim_sig);
-   tb_top_inst->pkt_stat_in(pkt_stim_sig);
+   for (int i=0;i<NO_PORTS;i++){
+       tb_top_inst->pkt_stim_out[i](pkt_stim_sig[i]);
+       tb_top_inst->pkt_stat_in[i](pkt_stim_sig[i]);
+   }
 //   tb_top_inst.pkt_stat_in(pkt_stat);
 
    //6.仿真启动
