@@ -1,2 +1,0 @@
-g++ -g -Wall -Werror -pthread   -c -o test_main1.o test_main1.cpp
-g++ -o run test_main1.o     -lsystemc
