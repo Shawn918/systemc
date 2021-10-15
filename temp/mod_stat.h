@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //Project: Carbon
 //Description: SystemC 虚拟项目1
-//Module: stat_mod.h
+//Module: mod_stat.h
 //Description:  收包模块
 //Group: Nebula-Matrix 预研组
 //Author: Shawn
@@ -9,55 +9,53 @@
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
-#ifndef __STAT_MOD_H__
-#define __STAT_MOD_H__
+#ifndef __MOD_STAT_H__
+#define __MOD_STAT_H__
 
 //2.include工具库
 #include "comm_def.h"
   
 
 //using namespace std;   
-class stat_mod: public sc_module
+class mod_stat: public sc_module
 {
 
 //3.端口声明
   public: 
-    sc_in<int> clk_cnt_in;
+    sc_in<int> in_clk_cnt;
     //sc_in<tb_cfg> tb_cfg_in; 
     //sc_in<pkt_desc> pkt_stat_in;  //sample 1
-    std::array< sc_in<pkt_desc>, NO_PORTS > pkt_stat_in;  
+    std::array< sc_in<pkt_desc>, NO_PORTS > in_pkt_stat;  
 
 //4.信号声明
-    std::array< pkt_desc, NO_PORTS > pkt_stat_buf; 
+    //std::array< pkt_desc, NO_PORTS > pkt_stat_buf; 
 
 //5.模块声明
-    stat_mod(sc_module_name name); 
-    SC_HAS_PROCESS(stat_mod);
+    mod_stat(sc_module_name name); 
+    SC_HAS_PROCESS(mod_stat);
 
 //6.函数声明    
     void pkt_dump();
 
 };
 
-stat_mod::
-stat_mod(sc_module_name name):sc_module(name){
+mod_stat::
+mod_stat(sc_module_name name):sc_module(name){
     SC_METHOD(pkt_dump);
     for(int i=0; i < NO_PORTS; i++){
-        sensitive<< pkt_stat_in[i];
+        sensitive<< in_pkt_stat[i];
     }
 }
 
-void stat_mod::
+void mod_stat::
 pkt_dump() {
     for(int i=0; i < NO_PORTS; i++){
-        if ((pkt_stat_in[i].read().fsn >= 0) && 
-           !(pkt_stat_in[i].read() == pkt_stat_buf[i])){
-            cout << "@"<< clk_cnt_in <<"_clks stat rcv  <=:"
-                 << pkt_stat_in[i];
-            pkt_stat_buf[i] = pkt_stat_in[i];
+        if ((in_pkt_stat[i].read().fsn >= 0) && 
+           in_pkt_stat[i].event()){
+            cout << "@"<< in_clk_cnt <<"_clks stat rcv  <=:"
+                 << in_pkt_stat[i];
         }
     }
-    
 }
 
-#endif //__STAT_MOD_H__
+#endif //__MOD_STAT_H__
