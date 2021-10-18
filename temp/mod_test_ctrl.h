@@ -9,39 +9,39 @@
 ////////////////////////////////////////////////////////////
 
 //1.防重定义
-#ifndef __TEST_CTRL_MOD_H__
-#define __TEST_CTRL_MOD_H__
+#ifndef __MOD_TEST_CTRL_H__
+#define __MOD_TEST_CTRL_H__
 
 //2.include工具库
 #include "comm_def.h"
 
 //using namespace std;   
-class test_ctrl_mod: public sc_module
+class mod_test_ctrl: public sc_module
 {
 
 //3.端口声明
   public: 
-    sc_in_clk             clk_in;
-    sc_out<int>      clk_cnt_out;
+    sc_in_clk             in_clk;
+    sc_out<int>      out_clk_cnt;
 //    sc_out<dut_cfg>  dut_cfg_out;  
 //    sc_out< tb_cfg>   tb_cfg_out;  
 
 //4.信号声明
-    int       clk_cnt_sig ;  
+    int       clk_cnt_tmp ;  
 //    sc_signal<dut_cfg>  dut_cfg_sig;  
 //    sc_signal< tb_cfg>   tb_cfg_sig;  
 
 //5.模块声明
-    test_ctrl_mod(sc_module_name name); 
-    SC_HAS_PROCESS(test_ctrl_mod);
+    mod_test_ctrl(sc_module_name name); 
+    SC_HAS_PROCESS(mod_test_ctrl);
 
 //6.函数声明    
     void clk_count();    
 
 };
 
-test_ctrl_mod::
-test_ctrl_mod(sc_module_name name):sc_module(name)
+mod_test_ctrl::
+mod_test_ctrl(sc_module_name name):sc_module(name)
 {
     //    dut_cfg_sig = f(配置文件)；
     //    tb_cfg_sig  = f(配置文件)；
@@ -50,22 +50,22 @@ test_ctrl_mod(sc_module_name name):sc_module(name)
     cout<<"读取文件预留位置.\n";
 
     SC_THREAD(clk_count);
-    sensitive << clk_in.pos();
+    sensitive << in_clk.pos();
 }
 
 
-void test_ctrl_mod::
+void mod_test_ctrl::
 clk_count() {
-    clk_cnt_sig=0;
+    clk_cnt_tmp=0;
     wait();
     wait();
     wait();
     while(true){
-        clk_cnt_sig++;
-        clk_cnt_out = clk_cnt_sig;
+        clk_cnt_tmp++;
+        out_clk_cnt = clk_cnt_tmp;
         wait();
     }
 }
 
 
-#endif  //__TEST_CTRL_MOD_H__
+#endif  //__MOD_TEST_CTRL_H__
